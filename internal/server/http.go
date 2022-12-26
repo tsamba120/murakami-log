@@ -56,12 +56,14 @@ Methods/handlers for our http object
 func (s *httpServer) handleProduce(w http.ResponseWriter, r *http.Request) {
 	var req ProduceRequest
 
+	// Decode request object and read it into ProduceRequest struct
 	err := json.NewDecoder(r.Body).Decode(&req)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 
+	// Recall that this method will add offset to Record before producing
 	off, err := s.Log.Append(req.Record)
 
 	if err != nil {
@@ -81,6 +83,8 @@ func (s *httpServer) handleProduce(w http.ResponseWriter, r *http.Request) {
 // get request will have a request body of {"offset": <int>}
 func (s *httpServer) handleConsume(w http.ResponseWriter, r *http.Request) {
 	var req ConsumeRequest
+
+	// Decode requst object and read it into ConsumeRequest object
 	err := json.NewDecoder(r.Body).Decode(&req)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
