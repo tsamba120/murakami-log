@@ -1,0 +1,11 @@
+// needed to create $GOPATH to local install, etc. See `~/.zshrc` exports for solution
+syntax = "proto3";
+
+package log.v1;
+
+option go_package = "github.com/tsamba120/murakami-log/api/log_v1";
+
+message Record {
+    bytes value = 1;
+    uint64 offset = 2;
+}
